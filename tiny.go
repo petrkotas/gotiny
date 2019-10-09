@@ -54,6 +54,7 @@ func handleShorten(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleRedirect(w http.ResponseWriter, r *http.Request) {
+	log.Printf("Processing query: %s", r.URL)
 	qs, ok := r.URL.Query()["q"]
 
 	if !ok || len(qs[0]) < 1 {
@@ -62,6 +63,7 @@ func handleRedirect(w http.ResponseWriter, r *http.Request) {
 	}
 
 	log.Printf("Redirecting to: %s", urlsMap[qs[0]])
+	w.WriteHeader(303)
 	http.Redirect(w, r, urlsMap[qs[0]], http.StatusSeeOther)
 }
 
